@@ -1,0 +1,146 @@
+@CHARSET "UTF-8";
+
+body {
+	font-family: "Lucida Grande","Lucida Sans Unicode",Verdana,Arial,Helvetica,sans-serif;
+	font-size: 10px;
+	padding: 0;
+	margin: 0;
+}
+
+line {
+	stroke: #ccc;
+}
+
+text {
+	fill: #333;
+	cursor: default;
+}
+
+i {
+	display: inline-block;
+	width: 10px;
+	height: 10px;
+	margin-right: 5px;
+}
+
+.line {
+	fill: none !important;
+	stroke: #666;
+}
+
+.marker {
+}
+
+.line .marker {
+	opacity: 0;
+}
+
+.line .marker.selected {
+	opacity: 1;
+}
+
+.line.current {
+	stroke-width: 2;
+}
+
+.line.current .marker {
+	opacity: 1;
+}
+
+.line.current .marker.selected {
+	/*fill: white !important;*/
+}
+
+path.domain {
+	display: none;
+}
+
+.chart-container {
+	position: relative;
+}
+
+.tooltip {
+	position: absolute;
+	top: 0;
+	left: 0;
+	text-transform: capitalize;
+}
+
+.tooltip > div {
+	background: rgba(255,255,255,0.8);
+	border: 1px solid #aaa;
+	border-radius: 5px;
+	padding: 5px;
+	box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.tooltip .tooltip-header {
+	font-size: 14px;
+	margin-bottom: 5px;
+}
+
+.tooltip p {
+	margin: 0;
+}
+
+.tooltip .tooltip-header span {
+	display: inline-block;
+	padding: 0 5px;
+	border-left: 1px solid #ccc;
+	margin-left: 10px;
+}
+
+.tooltip .tooltip-header span {
+	color: #666;
+}
+
+.tooltip p.tooltip-body span {
+	margin-right: 5px;
+}
+
+.country .area.hover {
+	stroke: #aaa !important;
+}
+
+text.x-title, text.y-title {
+	fill: #666;
+	font-weight: bold;
+	text-transform: capitalize;
+}
+
+.lines-chart text.y-title {
+	font-size: 20px;
+}
+.strategy-chart text.x-title, .strategy-chart text.y-title {
+	opacity: 0.2;
+	font-size: 40px;
+}
+
+.time-node {
+	cursor: default;
+}
+
+.marker.selected path {
+	/*fill: #fff !important;*/
+	stroke-width: 4;
+}
+
+/*.marker.selected .hover {
+	opacity:1 !important;
+}*/
+
+/*for china map*/
+.counties {
+	fill: none;
+	stroke: #aaa;
+	stroke-width: 0.2px;
+	stroke-linejoin: round;
+}
+
+.states {
+	fill: none;
+	stroke: #777;
+	stroke-width: 1px;
+	stroke-linejoin: round;
+}
+
