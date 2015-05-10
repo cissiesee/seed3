@@ -59,7 +59,8 @@ module.exports = function() { //create chart maker
 
 			if(_opts.containerTag == 'div') {
 				plotContainer.style({
-					position: 'absolute'
+					position: 'absolute',
+					width: '100%'
 				});
 			}
 

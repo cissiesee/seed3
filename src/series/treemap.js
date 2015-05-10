@@ -15,6 +15,8 @@ module.exports = function(opts) {
 		var seriesData = d;
 		var container = d3.select(this);
 
+		d.width = d.width || container.style('width').match(/\d+/g)[0];
+
 		var color = opts.colors;
 		var treemap = d3.layout.treemap()
 			.size([d.width, d.height])

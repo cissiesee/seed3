@@ -134,7 +134,7 @@ psd3.setOption({
 				name: 'series0',
 				label: 'series 0',
 				type: 'treemap',
-				width: 400,
+				//width: 400,
 				height: 400,
 				//colors: '#ff9995',
 				style: {

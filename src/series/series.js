@@ -8,7 +8,8 @@ var when = require('when');
 var seriesTypes = {
 	area: require('./area'),
 	treemap: require('./treemap'),
-	line: require('./line')
+	line: require('./line'),
+	table: require('./table')
 };
 //var _ = require('lodash');
 //var queue = require('queue-async');
