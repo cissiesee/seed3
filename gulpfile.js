@@ -38,7 +38,7 @@ function notiErr(err){
 
 var isOnErrorState = false;
 gulp.task('js', function() {
-    return browserify({ debug: true })
+    return browserify({ debug: false })
         //.transform(babelify)
         .require(paths.app_js, { entry: true })
         .bundle(function(err,bff){

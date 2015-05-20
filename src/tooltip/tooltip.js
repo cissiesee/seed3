@@ -22,8 +22,8 @@ var Tooltip = function(opts) {
 Tooltip.prototype = {
 	constructor: Tooltip,
 	init: function(opts) {
-		this.$el = $('<div class="tooltip"></div>')
-			.css({
+		this.$el = $('<div class="chart-tooltip"></div>')
+			.css(_.extend({
 				'position': 'absolute',
 				'top': '0',
 				'left': '0',
@@ -33,7 +33,7 @@ Tooltip.prototype = {
 				'border-radius': '5px',
 				'box-shadow': '0 2px 6px rgba(0, 0, 0, 0.2)',
 				'padding': '5px'
-			});
+			}, opts.style));
 
 		this.$el.attr('id', opts.id);
 		this.$container.append(this.$el);

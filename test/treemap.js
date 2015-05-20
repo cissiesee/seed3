@@ -83,7 +83,6 @@ psd3.setOption({
 	},
 	domType: 'div',
 	layout: {
-		width: 400,
 		height: 400
 	},
 	/*legend: {

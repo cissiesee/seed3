@@ -1411,7 +1411,7 @@ if ( typeof define === 'function' && define.amd ) {
 }
 else if ( typeof exports === 'object' ) {
     // Node/CommonJS
-    module.exports = factory( require('jquery'), require('datatables') );
+    module.exports = factory( require('jquery'), require('./jquery.dataTables') );
 }
 else if ( jQuery && !jQuery.fn.dataTable.FixedColumns ) {
 	// Otherwise simply initialise as normal, stopping multiple evaluation

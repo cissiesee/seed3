@@ -15,9 +15,14 @@ module.exports = function(opts) {
 		var seriesData = d;
 		var container = d3.select(this);
 
+		var color = opts.colors;
+
+		container
+			.style("width", d.width ? d.width + 'px' : '100%')
+			.style("height", d.height + 'px');
+
 		d.width = d.width || container.style('width').match(/\d+/g)[0];
 
-		var color = opts.colors;
 		var treemap = d3.layout.treemap()
 			.size([d.width, d.height])
 			.sticky(true)
@@ -43,7 +48,7 @@ module.exports = function(opts) {
 			.style("width", d.width + 'px')
 			.style("height", d.height + "px");
 
-		var node = container.datum(d.data).selectAll(".node")
+		var nodes = container.datum(d.data).selectAll(".node")
 			.data(treemap.nodes)
 			.enter()
 			.append(opts.containerTag)
@@ -69,15 +74,28 @@ module.exports = function(opts) {
 			})
 			.style("background", function(d) {
 				if(!d.children) {
-					d.color = color(d.parent.name);
+					var name;
+					if(seriesData.config) {
+						name = d[seriesData.config.name];
+					} else {
+						name = d.name;
+					}
+					d.color = _.indexOf(color.domain(), name[0]) !==-1 ? color(name[0]) : color(name);
 					return d.color;
 				}
 				return 'none';
 			})
 			.text(function(d) {
-				return d.children ? null : d.name;
-			})
-			.style(_.extend({
+				var name;
+				if(seriesData.config) {
+					name = d[seriesData.config.name];
+				} else {
+					name = d.name;
+				}
+				return d.children ? null : name;
+			});
+
+		nodes.style(_.extend({
 				'border': '3px solid white',
 				'overflow': 'hidden',
 				'position': 'absolute',
@@ -101,7 +119,18 @@ module.exports = function(opts) {
 				'height': function(d) {
 					return Math.max(0, d.dy - 1) + "px";
 				}
-			});
+			});		
+
+		if(seriesData.config && seriesData.config.sub) {
+			nodes.append('p')
+				.text(function(d) {
+					return d[seriesData.config.sub];
+				})
+				.style({
+					padding: 0,
+					margin: 0
+				});
+		}
 	});
 
 	defer.resolve();

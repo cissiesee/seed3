@@ -2,27 +2,38 @@ psd3.setOption({
 	data: [{
 		name: 'series0',
 		data: [
-			{id: 'dfed90', name: 'cissie', sex: 'female', age: 30},
-			{id: 'ejiodi78', name: 'jack', sex: 'male', age: 25},
-			{id: 'deged', name: 'lily', sex: 'female', age: 15},
-			{id: 'dete', name: 'lucy', sex: 'female', age: 16},
-			{id: 'kuyyj', name: 'mike', sex: 'male', age: 36},
-			{id: '46hfgs', name: 'jassie', sex: 'female', age: 35},
-			{id: 'fh365456', name: 'miumiu', sex: 'male', age: 1},
-			{id: 'fhf4567', name: 'lucky', sex: 'male', age: 35}
+			{id: 'dfed90', age: 0, score: 89, jioidj: 90, dhuiuhg:78, gguighg: 8, ggtwef: 8},
+			{id: 'ejiodi78', age: 25, score: 15, jioidj: 90, dhuiuhg:78, gguighg: 8, ggtwef: 8},
+			{id: 'ejiodi76', age: 25, score: 15, jioidj: 90, dhuiuhg:78, gguighg: 8, ggtwef: 8},
+			{id: 'ejrdi78', age: 25, score: 15, jioidj: 90, dhuiuhg:78, gguighg: 8, ggtwef: 8},
+			{id: 'tyiodi78', age: 25, score: 15, jioidj: 90, dhuiuhg:78, gguighg: 8, ggtwef: 8},
+			{id: 'ioiodi78', age: 25, score: 15, jioidj: 90, dhuiuhg:78, gguighg: 8, ggtwef: 8},
+			{id: 'rjiodi78', age: 25, score: 15, jioidj: 90, dhuiuhg:78, gguighg: 8, ggtwef: 8},
+			{id: 'ajiodi78', age: 25, score: 15, jioidj: 90, dhuiuhg:78, gguighg: 8, ggtwef: 8},
+			{id: 'bjiodi78', age: 25, score: 15, jioidj: 90, dhuiuhg:78, gguighg: 8, ggtwef: 8},
+			{id: 'cjiodi78', age: 25, score: 15, jioidj: 90, dhuiuhg:78, gguighg: 8, ggtwef: 8},
+			{id: 'djiodi78', age: 25, score: 15, jioidj: 90, dhuiuhg:78, gguighg: 8, ggtwef: 8},
+			{id: 'fjiodi78', age: 25, score: 15, jioidj: 90, dhuiuhg:78, gguighg: 8, ggtwef: 8},
+			{id: 'gjiodi78', age: 25, score: 15, jioidj: 90, dhuiuhg:78, gguighg: 8, ggtwef: 8},
+			{id: 'hjiodi78', age: 25, score: 15, jioidj: 90, dhuiuhg:78, gguighg: 8, ggtwef: 8},
+			{id: 'jjiodi78', age: 25, score: 15, jioidj: 90, dhuiuhg:78, gguighg: 8, ggtwef: 8},
+			{id: 'kjiodi78', age: 25, score: 15, jioidj: 90, dhuiuhg:78, gguighg: 8, ggtwef: 8},
+			{id: 'ljiodi78', age: 25, score: 15, jioidj: 90, dhuiuhg:78, gguighg: 8, ggtwef: 8},
+			{id: 'mjiodi78', age: 25, score: 15, jioidj: 90, dhuiuhg:78, gguighg: 8, ggtwef: 8},
+			{id: 'njiodi78', age: 25, score: 15, jioidj: 90, dhuiuhg:78, gguighg: 8, ggtwef: 8},
+			{id: 'ojiodi78', age: 25, score: 15, jioidj: 90, dhuiuhg:78, gguighg: 8, ggtwef: 8}
 		]
 	}],
 	selector: '#example',
 	domType: 'div',
 	layout: {
-		width: 500,
-		height: 500
+		width: 300,
+		height: 300
 	},
 	colors: ['#f7d370','#f05c6c'],
 	plot: {
 		//domType: 'svg',
 		//data: data, //rawdata
-		layout: {left: 50, top: 10, width: 400, height: 400},
 		series: [
 			{
 				type: 'table',
@@ -30,10 +41,22 @@ psd3.setOption({
 
 				},
 				height: 300,
-				colors: ['#f7d370','#f05c6c'],
+				//valueRange: [0, 100],
+				//colors: ['#f7d370','#f05c6c'],
+				table: {
+					sort: [[3,'desc']]
+				},
 				attributeId: 'id',
-				valueKey: 'age',
-				columns: [{field: 'id', title:'id'},{field: 'name', title: 'name'},{field: 'age', title: 'age'}]
+				columns: [
+					{field: 'id', title:'id'},
+					{field: 'score', title: 'score', formatter: function(d) {return d + '%'}},
+					{field: 'age', title: 'age'},
+					{field: 'jioidj', title: 'jioidj'},
+					{field: 'dhuiuhg', title: 'dhuiuhg'},
+					{field: 'gguighg', title: 'gguighg'},
+					{field: 'ggtwef', title: 'ggtwef'}
+
+				]
 			}
 		]
 	}

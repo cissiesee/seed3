@@ -1,6 +1,7 @@
 var _ = require('lodash');
 var $ = require('jquery');
 var dataTable = require('./DataTables/media/js/jquery.dataTables');
+//var dataTableFixedColumns = require('./DataTables/media/js/dataTables.fixedColumns');
 //var bootstrap = require('bootstrap');
 
 module.exports = function(opts) {
@@ -8,21 +9,13 @@ module.exports = function(opts) {
 	var dispatcher = opts.dispatcher;
 	var colors = opts.colors.range();
 
-	//bootstrap($);
-
-	var data = [
-		{id: 1, name: 'cissie', sex: 'female', age: '30'},
-		{id: 2, name: 'jack', sex: 'male', age: '35'}
-	];
-
 	var columns = [{field: 'id', title:'id'},{field: 'name', title: 'name'}];
 	var attributeId = 'id';
 
 	containers.each(function(seriesOpts) {
 		var tableContainer = d3.select(this);
-		console.log(dataTable);
 
-		var valueRange = d3.extent(_.pluck(seriesOpts.data, seriesOpts.valueKey));
+		var valueRange = seriesOpts.valueRange || d3.extent(_.pluck(seriesOpts.data, seriesOpts.valueKey));
 
 		var colorScale = d3.scale.linear()
 			.domain(valueRange)
@@ -62,38 +55,62 @@ module.exports = function(opts) {
 			.append('tr')
 			.attr({
 				id: function(d, i) {
-					return 'tr' + attributeId ? (d[attributeId] || 'attributeId must be set') : i;
+					return 'tr' + i;
+					//return 'tr' + attributeId ? (d[attributeId] || 'tr' + i ) : i;
 				}
 			});
 
 		tbodyTrs.selectAll('td')
 			.data(function(d) {
 				return _.map(seriesOpts.columns, function(col) {
-					return {
+					return _.extend({}, col, {
 						key: col.field,
-						value: d[col.field] || undefined
-					}
+						value: d[col.field]
+					});
 				});
 			})
 			.enter()
 			.append('td')
 			.text(function(d) {
-				return d.value || '-';
+				if(d.value === undefined) {
+					return '-';
+				} else {
+					if(d.formatter) {
+						return d.formatter(d.value);
+					} else {
+						return d.value;
+					}
+				}
 			})
 			.style({
 				'background': function(d) {
-					if(d.key === seriesOpts.valueKey) {
+					return;
+					if(seriesOpts.valueKey && d.key === seriesOpts.valueKey) {
 						return d.value===undefined ? 'none' : colorScale(d.value);
+					} else {
+						if(!seriesOpts.valueKey && d.key !== seriesOpts.attributeId && typeof(d.value) == 'number') {
+							return d.value===undefined ? 'none' : colorScale(d.value);
+						}
 					}
 				}
 			});
 
-		$(table.node()).dataTable({
+		var dataTableOpts = seriesOpts.table || {};
+
+		if(seriesOpts.height) {
+			dataTableOpts.scrollY = seriesOpts.height + 'px';
+		} 
+
+		var dataTable = $(table.node()).dataTable(_.extend({
 			"info": false,
 			"searching": false,
 			"paging": false,
-			"scrollY": (seriesOpts.height || 300) + 'px',
+			"scrollX": "100%",
+			//"responsive": true,
+			"scrollY": '300px',
 			"deferRender": true
-		});
+		}, dataTableOpts));
+
+		//new $.fn.dataTable.FixedColumns(dataTable);
 	});
 }

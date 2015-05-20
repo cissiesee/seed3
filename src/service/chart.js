@@ -17,9 +17,12 @@ module.exports = function() { //mange and distribution
 
 		//var chartRoot = d3.select(selector);
 
+		d3.select(selector).empty();
+
 		var chartContainer = d3.select(selector).append(opts.domType || 'svg')
 			.attr({
-				'class': 'chart-container'
+				'class': 'chart-container',
+				'position': 'relative'
 			});
 
 		if(opts.containerTag == 'g') {
