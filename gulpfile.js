@@ -10,6 +10,7 @@ var chalk = require('chalk');
 var notifier = require('node-notifier');
 var uglify = require('gulp-uglify');
 
+
 // Define some paths.
 var paths = {
     app_js: ['./src/index.js'],
