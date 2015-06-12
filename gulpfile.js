@@ -10,7 +10,6 @@ var chalk = require('chalk');
 var notifier = require('node-notifier');
 var uglify = require('gulp-uglify');
 
-
 // Define some paths.
 var paths = {
     app_js: ['./src/index.js'],
@@ -61,8 +60,18 @@ gulp.task('compile', function() {
         //.pipe(uglify())
         .pipe(source('psd3.pack.js'))
         .pipe(gulp.dest('./dist/'));
-
 });
+
+gulp.task('uglify', function(){
+        return gulp.src(jss)
+            .pipe(sourcemaps.init({loadMaps: true}))
+            .pipe(uglify())
+            .pipe(concat('all.min.js'))
+            .pipe(sourcemaps.write('./', {//故意写死，请勿修改
+                sourceMappingURLPrefix: 'http://vg-static.patsnap.com/jobs/landscape/dist/release/js/'
+            }))
+            .pipe(gulp.dest(output+'/js'));
+    });
 
 // Rerun tasks whenever a file changes.
 gulp.task('watch', function() {
