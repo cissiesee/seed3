@@ -9,7 +9,8 @@ var source = require('vinyl-source-stream');
 var chalk = require('chalk');
 var notifier = require('node-notifier');
 var uglify = require('gulp-uglify');
-
+var concat = require('gulp-concat');
+var sourcemaps = require('gulp-sourcemaps');
 
 // Define some paths.
 var paths = {
@@ -38,7 +39,7 @@ function notiErr(err){
 
 var isOnErrorState = false;
 gulp.task('compile', function() {
-    return browserify({ debug: false })
+    return browserify({ debug: true })
         //.transform(babelify)
         .require(paths.app_js, { entry: true })
         .bundle(function(err,bff){
@@ -59,25 +60,23 @@ gulp.task('compile', function() {
 
         })
         //.pipe(uglify())
-        .pipe(source('psd3.pack.js'))
+        .pipe(source('seed3.pack.js'))
         .pipe(gulp.dest('./dist/'));
 });
 
-gulp.task('uglify', function(){
-        return gulp.src(jss)
+gulp.task('uglify', ['compile'], function(){
+        return gulp.src('./dist/seed3.pack.js')
             .pipe(sourcemaps.init({loadMaps: true}))
             .pipe(uglify())
-            .pipe(concat('all.min.js'))
-            .pipe(sourcemaps.write('./', {//故意写死，请勿修改
-                sourceMappingURLPrefix: 'http://vg-static.patsnap.com/jobs/landscape/dist/release/js/'
-            }))
-            .pipe(gulp.dest(output+'/js'));
-    });
+            .pipe(concat('seed3.min.js'))
+            .pipe(sourcemaps.write('./'))
+            .pipe(gulp.dest('./dist/'));
+});
 
 // Rerun tasks whenever a file changes.
 gulp.task('watch', function() {
-    return gulp.watch(paths.js, ['js']);
+    return gulp.watch(paths.js, ['compile']);
 });
 
 // The default task (called when we run `gulp` from cli)
-gulp.task('default', ['js','watch']);
+gulp.task('default', ['uglify','watch']);
