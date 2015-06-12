@@ -16,6 +16,7 @@
     "chalk": "^0.5.1",
     "gulp": "^3.8.11",
     "gulp-notify": "^2.2.0",
+    "gulp-uglify": "^1.2.0",
     "jquery": "^2.1.4",
     "juicer": "^0.6.8-stable",
     "lodash": "^3.8.0",

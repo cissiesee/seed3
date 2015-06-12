@@ -3,6 +3,7 @@
 var _ = require('lodash');
 require('./d3');
 require('./d3_extend');
+//require('./d3.layout.cloud');
 
 var chartService = require('./service/chart');
 var plotService = require('./service/plot');
@@ -28,6 +29,9 @@ var psd3 = {
 		return chart(opts.selector);
 	}
 };
+
+
+
 
 window.psd3 = psd3;
 

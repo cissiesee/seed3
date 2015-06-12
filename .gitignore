@@ -1,3 +1,7 @@
-node_module/
-
-bower_components/
+.idea/
+node_modules/
+Thumbs.db
+.DS_Store
+node_modules
+npm-debug.log
+/dist/

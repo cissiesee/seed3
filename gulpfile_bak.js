@@ -8,7 +8,7 @@ var browserify = require('browserify');  // Bundles JS.
 var source = require('vinyl-source-stream');
 var chalk = require('chalk');
 var notifier = require('node-notifier');
-var uglify = require('gulp-uglify');
+
 
 
 // Define some paths.
@@ -37,7 +37,7 @@ function notiErr(err){
 
 
 var isOnErrorState = false;
-gulp.task('compile', function() {
+gulp.task('js', function() {
     return browserify({ debug: false })
         //.transform(babelify)
         .require(paths.app_js, { entry: true })
@@ -58,7 +58,6 @@ gulp.task('compile', function() {
             isOnErrorState = true;
 
         })
-        //.pipe(uglify())
         .pipe(source('psd3.pack.js'))
         .pipe(gulp.dest('./dist/'));
 

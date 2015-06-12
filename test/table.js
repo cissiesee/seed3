@@ -44,12 +44,22 @@ psd3.setOption({
 				//valueRange: [0, 100],
 				//colors: ['#f7d370','#f05c6c'],
 				table: {
-					sort: [[3,'desc']]
 				},
 				attributeId: 'id',
 				columns: [
 					{field: 'id', title:'id'},
-					{field: 'score', title: 'score', formatter: function(d) {return d + '%'}},
+					{
+						field: 'score',
+						title: 'score',
+						formatter: function(d,  data) {
+							console.log(this, data);
+							return '<a href="#">' + d + '%' + '</a>';
+						},
+						postProcess: function(d) {
+							d3.select(this).append('a');
+							console.log(this, d);
+						}
+					},
 					{field: 'age', title: 'age'},
 					{field: 'jioidj', title: 'jioidj'},
 					{field: 'dhuiuhg', title: 'dhuiuhg'},

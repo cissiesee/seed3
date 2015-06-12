@@ -93,20 +93,19 @@ module.exports = function(opts) {
 					name = d.name;
 				}
 				return d.children ? null : name;
-			});
-
-		nodes.style(_.extend({
+			})
+			.style(_.extend({
 				'border': '3px solid white',
 				'overflow': 'hidden',
 				'position': 'absolute',
 				'text-indent': '2px'
-			}, d.style))
-			.transition()
-			.delay(function(d, i) {
-				return i * 10;
-			})
-			.duration(1000)
-			.style({
+			}, d.style));
+
+		if(d.animation!==false) {
+			nodes = nodes.transition().duration(typeof(d.animation) === 'number' ? d.animation : 1000);
+		}
+
+		nodes.style({
 				/*'left': function(d) {
 					return (d.x + seriesData.left) + "px";
 				},

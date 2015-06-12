@@ -65,21 +65,18 @@ module.exports = function(opts) {
 				return _.map(seriesOpts.columns, function(col) {
 					return _.extend({}, col, {
 						key: col.field,
-						value: d[col.field]
+						value: d[col.field],
+						data: d
 					});
 				});
 			})
 			.enter()
 			.append('td')
-			.text(function(d) {
-				if(d.value === undefined) {
-					return '-';
+			.html(function(d) {
+				if(d.formatter) {
+					return d.formatter.call(this, d.value, seriesOpts.data);
 				} else {
-					if(d.formatter) {
-						return d.formatter(d.value);
-					} else {
-						return d.value;
-					}
+					return d.value === undefined ? '-' : d.value;
 				}
 			})
 			.style({
@@ -93,19 +90,25 @@ module.exports = function(opts) {
 						}
 					}
 				}
+			})
+			.each(function(d) {
+				if(d.postProcess) {
+					d.postProcess.call(this, d, seriesOpts.data);
+				}
 			});
 
 		var dataTableOpts = seriesOpts.table || {};
 
 		if(seriesOpts.height) {
 			dataTableOpts.scrollY = seriesOpts.height + 'px';
-		} 
+		}
 
 		var dataTable = $(table.node()).dataTable(_.extend({
 			"info": false,
 			"searching": false,
 			"paging": false,
 			"scrollX": "100%",
+			"order": [[0,false]],
 			//"responsive": true,
 			"scrollY": '300px',
 			"deferRender": true
