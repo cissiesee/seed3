@@ -79,4 +79,4 @@ gulp.task('watch', function() {
 });
 
 // The default task (called when we run `gulp` from cli)
-gulp.task('default', ['uglify','watch']);
+gulp.task('default', ['compile','watch']);
