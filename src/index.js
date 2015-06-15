@@ -36,3 +36,26 @@ var psd3 = {
 window.psd3 = psd3;
 
 module.exports = psd3;
+
+var Axis = require('./component/axis');
+var Legend = require('./component/legend');
+var Series = require('./component/series');
+var Tooltip = require('./component/tooltip');
+var ChartModel = require('./model/chart_model');
+
+function Seed3(config) {
+	this.init(config);
+}
+
+Seed3.prototype = {
+	constructor: Seed3,
+	init: function(config) {
+		var model = new ChartModel(config);
+		return {
+			axis: new Axis(model, config.axis),
+			legend: new Legend(model, config.legend),
+			series: new Series(model, config.series),
+			tooltip: new Tooltip(config.tooltip)
+		}
+	}
+}

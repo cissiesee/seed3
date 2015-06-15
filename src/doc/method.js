@@ -2,7 +2,12 @@
 
 [
 	{
-		'name': 'setOption', 'description': '', 'type': 'function', 'return': '', 'props': '#options'
+		'name': 'setOption',
+		'description': '',
+		'type':
+		'function',
+		'return': '',
+		'props': '#options'
 	},
 	{
 		'name': 'getOption'
