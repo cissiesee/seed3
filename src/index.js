@@ -1,61 +1,76 @@
-// created by zhetinghuang
-// start: 2014-12-31
-var _ = require('lodash');
-require('./d3');
-require('./d3_extend');
-//require('./d3.layout.cloud');
+var d3 = require('d3');
+var Axis = require('./component/axis/axis');
+var Legend = require('./component/legend/legend');
+var Series = require('./component/series/series');
+var Tooltip = require('./component/tooltip/tooltip');
+var chartModel = require('./model/chart_model');
+var buildInThemes = {
+	theme1: require('./theme/candy'),
+	theme2: require('./theme/cold')
+}
 
-var chartService = require('./service/chart');
-var plotService = require('./service/plot');
-var legendService = require('./service/legend');
-var tooltipService = require('./service/tooltip');
-/**
- * data example(tabular): 
- * config: {chartTitle: 'chart title', xTitle: 'x title', yTitle: 'y title'},
- * items: [
- *	{name: 'series1', color: '#ccc', type: 'line', nodes: [{x: 1, y: 2}, {x: 5, y: 3}]},
- *	{name: 'series2', color: '#eee', type: 'bar', nodes: [{x: 1, y: 2}, {x: 7, y: 0}]}
- * ]
- *
- */
-
-/*juicer.set({
-	'tag::interpolateOpen': '{'
-});*/
-
-var psd3 = {
-	setOption: function(opts) {
-		var chart = chartService().options(opts);
-		return chart(opts.selector);
+function Seed3(selector) {
+	if(typeof(selector) === 'string')) {
+		this._init(d3.select(selector));
+	} else if(_.isElement(selector)) {
+		this._init(selector);
 	}
-};
-
-
-
-
-window.psd3 = psd3;
-
-module.exports = psd3;
-
-var Axis = require('./component/axis');
-var Legend = require('./component/legend');
-var Series = require('./component/series');
-var Tooltip = require('./component/tooltip');
-var ChartModel = require('./model/chart_model');
-
-function Seed3(config) {
-	this.init(config);
 }
 
 Seed3.prototype = {
 	constructor: Seed3,
-	init: function(config) {
-		var model = new ChartModel(config);
-		return {
-			axis: new Axis(model, config.axis),
-			legend: new Legend(model, config.legend),
-			series: new Series(model, config.series),
-			tooltip: new Tooltip(config.tooltip)
+	_init: function(dom) {
+		this.init = true;
+		this.dom = dom;
+		this._options = {};
+		return this;
+	},
+	getOption: function() {
+		return _.cloneDeep(this._options);
+	},
+	setOption: function(options, opts) {
+		opts.reset ? _.extend(this._options, options) : this._options = options;
+		//var model = new ChartModel(options);
+		chartModel.init(this._options);
+		var axis = Axis(options.axis),
+			legend = Legend(options.legend),
+			series = Series(options.series),
+			tooltip = Tooltip(options.tooltip);
+		return this;
+	},
+	getTheme: function() {
+		return _.cloneDeep(this._theme);
+	},
+	setTheme: function(theme) {
+		var themePackage = theme;
+		if(typeof(theme) === 'string') {
+			themePackage = buildInThemes[theme] || buildInThemes['candy'];
 		}
+		mergeThemeToOpts(this._options, themePackage);var 
+		this.setOption(this._options);
+		return this;
+	},
+	addSeries: function(series) {
+		chartModel.addSeries(series);
+		return this;
+	},
+	destroy: function() {
+
+	},
+	resize: function() {
+
+	},
+	reset: function() {
+
+	},
+	on: function(type, callback) {
+
+	},
+	off: function(type, callback) {
+
 	}
 }
+
+window.Seed3 = Seed3;
+
+module.exports = Seed3;

@@ -1,0 +1,20 @@
+{
+	addAxis: function(axis) {},
+	removeAxis: function(axisId) {},
+	getAxis: function(axisId) {},
+	setAxis: function(axis, axisId) {},
+	addSeries: function(series) {},
+	removeSeries: function(series) {},
+	getSeries: function(seriesId) {},
+	addPoint: function(point, seriesId) {},
+	removePoint: function(point, seriesId) {},
+	getPoint: function(point, seriesId) {},
+	//setCurrentSeries: function() {},
+	//getCurrentSeries: function() {},
+	hideSeries: function(seriesId) {},
+	showSeries: function(seriesId) {},
+	setTooltip: function(point, tooltip) {},
+	getTooltip: function(point) {},
+	setLang: function(lang) {},
+	getLang: function() {}
+}
