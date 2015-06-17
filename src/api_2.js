@@ -24,6 +24,7 @@ var components = {
 /**/
 method:
 getOption: {
+	domType: 'svg', //'div'
 	axis: {
 		type: 'rectangle' //'polar'
 		grid: {

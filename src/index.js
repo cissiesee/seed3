@@ -1,12 +1,13 @@
-var d3 = require('d3');
-var Axis = require('./component/axis/axis');
-var Legend = require('./component/legend/legend');
-var Series = require('./component/series/series');
-var Tooltip = require('./component/tooltip/tooltip');
+//var d3 = require('d3');
+var Chart = require('./chart');
 var chartModel = require('./model/chart_model');
 var buildInThemes = {
 	theme1: require('./theme/candy'),
 	theme2: require('./theme/cold')
+}
+
+function mergeThemeToOpts(opts, theme) {
+	return;
 }
 
 function Seed3(selector) {
@@ -22,32 +23,29 @@ Seed3.prototype = {
 	_init: function(dom) {
 		this.init = true;
 		this.dom = dom;
-		this._options = {};
+		this._chart = Chart();
+		//init data model of chart
+		this._model = chartModel.init();
 		return this;
 	},
 	getOption: function() {
-		return _.cloneDeep(this._options);
+		return this._chart.option();
 	},
 	setOption: function(options, opts) {
-		opts.reset ? _.extend(this._options, options) : this._options = options;
-		//var model = new ChartModel(options);
-		chartModel.init(this._options);
-		var axis = Axis(options.axis),
-			legend = Legend(options.legend),
-			series = Series(options.series),
-			tooltip = Tooltip(options.tooltip);
+		this._chart.options(this._options, opts);
+		this._chart(this._dom);
 		return this;
 	},
 	getTheme: function() {
-		return _.cloneDeep(this._theme);
+		return this._chart.theme();
 	},
 	setTheme: function(theme) {
 		var themePackage = theme;
 		if(typeof(theme) === 'string') {
 			themePackage = buildInThemes[theme] || buildInThemes['candy'];
 		}
-		mergeThemeToOpts(this._options, themePackage);var 
-		this.setOption(this._options);
+		this._chart.theme(themePackage);
+		this._chart(this._dom);
 		return this;
 	},
 	addSeries: function(series) {
@@ -58,10 +56,14 @@ Seed3.prototype = {
 
 	},
 	resize: function() {
-
+		var layout = {width: dom.style.width, height: dom.style.height};
+		this._chart.layout(layout);
+		this._chart(this._dom);
+		return this;
 	},
 	reset: function() {
-
+		this._chart.reset();
+		return this;
 	},
 	on: function(type, callback) {
 
