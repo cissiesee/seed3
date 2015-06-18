@@ -1,10 +1,11 @@
 //var d3 = require('d3');
 var Chart = require('./chart');
-var chartModel = require('./model/chart_model');
+//var chartModel = require('./model/chart_model');
+var Action = require('./action/action');
 var buildInThemes = {
 	theme1: require('./theme/candy'),
 	theme2: require('./theme/cold')
-}
+};
 
 function mergeThemeToOpts(opts, theme) {
 	return;
@@ -25,7 +26,7 @@ Seed3.prototype = {
 		this.dom = dom;
 		this._chart = Chart();
 		//init data model of chart
-		this._model = chartModel.init();
+		//this._model = chartModel.init();
 		return this;
 	},
 	getOption: function() {
@@ -49,7 +50,8 @@ Seed3.prototype = {
 		return this;
 	},
 	addSeries: function(series) {
-		chartModel.addSeries(series);
+		Action.addSeries(series);
+		//chartModel.addSeries(series);
 		return this;
 	},
 	destroy: function() {
@@ -57,12 +59,14 @@ Seed3.prototype = {
 	},
 	resize: function() {
 		var layout = {width: dom.style.width, height: dom.style.height};
-		this._chart.layout(layout);
-		this._chart(this._dom);
+		Action.resize(layout);
+		//this._chart.layout(layout);
+		//this._chart(this._dom);
 		return this;
 	},
 	reset: function() {
-		this._chart.reset();
+		Action.reset();
+		//this._chart.reset();
 		return this;
 	},
 	on: function(type, callback) {

@@ -11,8 +11,17 @@ var Tooltip = require('./component/tooltip/tooltip');
 
 module.exports = function() { //mange and distribution
 	//var defer = when.defer();
-	var _opts = {};
-	var _theme = {};
+	var _opts = {},
+		_theme = {};
+
+	var title = Title(),
+		axis = Axis(),
+		legend = Legend(),
+		series = Series(),
+		events = Events(),
+		tooltip = Tooltip();
+
+	var chartRoot, chartContainer;
 
 	function createContainer(root, opts) {
 		var containerTag = opts.domType || 'g';
@@ -45,15 +54,15 @@ module.exports = function() { //mange and distribution
 	var chart = function(dom) {
 
 		//create components
-		var title = Title().options(_opts.title);
-		var axis = Axis().options(_opts.axis);
-		var legend = Legend().options(_opts.legend);
-		var series = Series().options(_opts.series);
-		var events = Events().options(_opts.events);
-		var tooltip = Tooltip().options(_opts.tooltip);
+		title.options(chartModel.get('title'));
+		axis.options(chartModel.get('axis'));
+		legend.options(chartModel.get('legend'));
+		series.options(chartModel.get('series'));
+		events.options(chartModel.get('events'));
+		tooltip.options(chartModel.get('tooltip'));
 
-		var chartRoot = d3.select(dom);
-		var chartContainer = createContainer(chartRoot, _opts);
+		chartRoot = chartRoot || d3.select(dom);
+		chartContainer = chartContainer || createContainer(chartRoot, _opts);
 
 		//draw
 		chartContainer
@@ -70,43 +79,37 @@ module.exports = function() { //mange and distribution
 
 	chart.theme = function(theme) {
 		if(!theme) {
-			return _theme;
+			return chartModel.getTheme();
 		}
-		_.extend(_theme, theme);
-		mergeThemeToOpts(_opts, _theme);
-		chartModel.update(_opts);
+		chartModel.setTheme(theme);
 		return chart;
 	};
 	chart.title = function(title) {
 		if(!title) {
-			return _opts.title;
+			return chartModel.get('title');
 		}
-		_opts.title = title;
-		chartModel.update(_opts);
+		chartModel.set('title', title);
 		return chart;
 	};
 	chart.layout = function(layout) {
 		if(!layout) {
-			return _opts.layout;
+			return chartModel.get('layout');
 		}
-		_.extend(_opts.layout, layout);
+		chartModel.set('layout', layout);
 		return chart;
 	};
 	chart.tooltip = function(tooltip) {
 		if(!tooltip) {
 			return chartModel.get('tooltip');
-			//return _opts.tooltip;
 		}
-		_opts.tooltip = tooltip;
-		chartModel.update(_opts);
+		chartModel.set('tooltip', tooltip);
 		return chart;
 	};
 	chart.legend = function(legend) {
 		if(!legend) {
-			return _opts.legend;
+			return chartModel.get('legend');
 		}
-		_opts.legend = legend;
-		chartModel.update(_opts);
+		chartModel.set('legend', legend);
 		return chart;
 	};
 	chart.onComplete = function(fn) {
@@ -115,16 +118,18 @@ module.exports = function() { //mange and distribution
 	};
 	chart.options = function(options, opts) {
 		if(!options) {
-			return _.cloneDeep(_opts);
+			return chartModel.toJSON();
+			//return _.cloneDeep(_opts);
 		}
 		if(opts) {
 			opt.merge === false ? options = options : _.extend(_opts, options);
 		}
-		chartModel.update(_opts);
+		chartModel.set(_opts);
+		//chartModel.validate()
 		/*if(validateOptions(options)) {
 			chartModel.update(_opts);
 		};*/ //todo move it to chartmodel
 		return chart;
-	}
+	};
 	return chart;
 }
