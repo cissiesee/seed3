@@ -2,6 +2,7 @@
 var Chart = require('./chart');
 //var chartModel = require('./model/chart_model');
 var Action = require('./action/action');
+var Events = require('./component/events');
 var buildInThemes = {
 	theme1: require('./theme/candy'),
 	theme2: require('./theme/cold')
@@ -24,29 +25,35 @@ Seed3.prototype = {
 	_init: function(dom) {
 		this.init = true;
 		this.dom = dom;
-		this._chart = Chart();
+		this._chart = new Chart(dom);
 		//init data model of chart
 		//this._model = chartModel.init();
 		return this;
 	},
 	getOption: function() {
-		return this._chart.option();
+		return chartModel.toJSON();
+		//return this._chart.option();
 	},
 	setOption: function(options, opts) {
-		this._chart.options(this._options, opts);
-		this._chart(this._dom);
+		//this._chart.options(this._options, opts);
+		//this._chart(this._dom);
+		Action.setOption(options, opts);
+		//chartModel.set(options, opts);
 		return this;
 	},
 	getTheme: function() {
-		return this._chart.theme();
+		return chartModel.getTheme();
+		//return this._chart.theme();
 	},
 	setTheme: function(theme) {
-		var themePackage = theme;
+		Action.setTheme(theme);
+		//chartModel.setTheme(theme);
+		/*var themePackage = theme;
 		if(typeof(theme) === 'string') {
 			themePackage = buildInThemes[theme] || buildInThemes['candy'];
 		}
 		this._chart.theme(themePackage);
-		this._chart(this._dom);
+		this._chart(this._dom);*/
 		return this;
 	},
 	addSeries: function(series) {
@@ -60,6 +67,7 @@ Seed3.prototype = {
 	resize: function() {
 		var layout = {width: dom.style.width, height: dom.style.height};
 		Action.resize(layout);
+		//Events.fire('resize');
 		//this._chart.layout(layout);
 		//this._chart(this._dom);
 		return this;
@@ -70,10 +78,10 @@ Seed3.prototype = {
 		return this;
 	},
 	on: function(type, callback) {
-
+		Events.add(type, callback);
 	},
 	off: function(type, callback) {
-
+		Events.remove(type, callback);
 	}
 }
 

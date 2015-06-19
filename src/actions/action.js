@@ -13,3 +13,5 @@
 	'drag_title',
 	'export'
 ]
+
+var Events = require('events');

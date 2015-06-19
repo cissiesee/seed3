@@ -9,6 +9,50 @@ var Series = require('./component/series/series');
 var Events = require('./component/events');
 var Tooltip = require('./component/tooltip/tooltip');
 
+function Chart(dom) {
+	this.init(dom);
+}
+
+Chart.prototype = {
+	constructor: Chart,
+	init: function(dom) {
+		this.title = Title().options(chartModel.get('title'));
+		this.axis = Axis().options(chartModel.get('axis'));
+		this.legend = Legend().options(chartModel.get('legend'));
+		this.series = Series().options(chartModel.get('series'));
+		this.events = Events().options(chartModel.get('events'));
+		this.tooltip = Tooltip().options(chartModel.get('tooltip'));
+		this.chartRoot = this.chartRoot || d3.select(dom);
+		chartModel.on('change', function(data) {
+			this._draw(data);
+		});
+		//this._draw.call(dom);
+	},
+	_draw: function() {
+		this.chartRoot = this.chartRoot || d3.select(this);
+		this.chartContainer = this.chartContainer || createContainer(chartRoot, _opts);
+
+		//draw
+		chartContainer
+			.call(title)
+			.call(axis)
+			.call(legend)
+			.call(series)
+			.call(events);
+
+		chartRoot.call(tooltip);
+	}
+}
+
+module.exports = function() {
+	var title = Title().options(chartModel.get('title')),
+		axis = Axis()	.options(chartModel.get('axis')),
+		legend = Legend().options(chartModel.get('legend')),
+		series = Series().options(chartModel.get('series')),
+		events = Events().options(chartModel.get('events')),
+		tooltip = Tooltip().options(chartModel.get('tooltip'));
+}
+
 module.exports = function() { //mange and distribution
 	//var defer = when.defer();
 	var _opts = {},
