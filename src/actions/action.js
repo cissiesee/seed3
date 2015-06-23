@@ -1,17 +1,58 @@
-[
-	'add_series',
-	'remove_series',
-	'show_series',
-	'hide_series',
-	'click_series',
-	'hover_series',
-	'drag_point',
-	'add_point',
-	'remove_point',
-	'click_point',
-	'hover_point',
-	'drag_title',
-	'export'
-]
+var dispatch = require('dispatch');
 
-var Events = require('events');
+model.exports = {
+	setOption: function(data, opts) {
+		dispatch.set_option([data, opts]);
+	},
+	setTheme: function(data) {
+		dispatch.set_theme(data);
+	},
+	destroy: function() {
+		dispatch.destroy();
+	},
+	reset: function() {
+		dispatch.reset();
+	},
+	resize: function(data) {
+		dispatch.resize(data);
+	},
+	addSeries: function(data) {
+		dispatch.add_series(data);
+	},
+	removeSeries: function(data) {
+		dispatch.remove_series(data);
+	},
+	showSeries: function(data) {
+		dispatch.show_series(data);
+	},
+	hideSeries: function(data) {
+		dispatch.hide_series(data);
+	},
+	clickSeries: function(data) {
+		dispatch.click_series(data);
+	},
+	hoverSeries: function(data) {
+		dispatch.hover_series(data);
+	},
+	dragPoint: function(data) {
+		dispatch.drag_point(data);
+	},
+	addPoint: function(data) {
+		dispatch.add_point(data);
+	},
+	removePoint: function(data) {
+		dispatch.remove_point(data);
+	},
+	clickPoint: function(data) {
+		dispatch.click_point(data);
+	},
+	hoverPoint: function(data) {
+		dispatch.hover_point(data);
+	},
+	dragTitle: function(data) {
+		dispatch.drag_title(data);
+	},
+	exports: function(data) {
+		dispatch.exports(data);
+	}
+}

@@ -31,7 +31,7 @@ Seed3.prototype = {
 		return this;
 	},
 	getOption: function() {
-		return chartModel.toJSON();
+		return chartModel.get();
 		//return this._chart.option();
 	},
 	setOption: function(options, opts) {
@@ -62,7 +62,7 @@ Seed3.prototype = {
 		return this;
 	},
 	destroy: function() {
-
+		Action.destroy();
 	},
 	resize: function() {
 		var layout = {width: dom.style.width, height: dom.style.height};

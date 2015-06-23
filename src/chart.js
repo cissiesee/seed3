@@ -9,7 +9,7 @@ var Series = require('./component/series/series');
 var Events = require('./component/events');
 var Tooltip = require('./component/tooltip/tooltip');
 
-function updateContainer(data) {
+function update(data) {
 	this.root.select('.chart-container').remove(); //todo check api
 	var newContainer = this.root
 		.append(function(d) {
@@ -23,24 +23,34 @@ function updateContainer(data) {
 			'position': 'relative'
 		});
 
-	return redrawContainer(newContainers);
+	resize(newContainer);
+
+	//sub function init
+	newContainer
+		.call(this.title)
+		.call(this.axis)
+		.call(this.legend)
+		.call(this.series)
+		.call(this.events);
+
+	return newContainer;
 }
 
-function redrawContainer(container) {
-	var root = this.root;
-	container
+function resize(data) {
+	//var root = this.root;
+	this.root.select('.chart-container')
 		.attr({
 			'width': function(d) {
 				if(d.domType === 'div') {
 					return;
 				}
-				return root.style('width');
+				return data.layout.width;
 			},
 			'height': function(d) {
 				if(d.domType === 'div') {
 					return;
 				}
-				return root.style('height');
+				return data.layout.height;
 			}
 		})
 		.style({
@@ -48,16 +58,16 @@ function redrawContainer(container) {
 				if(d.domType !== 'div') {
 					return;
 				}
-				return root.style('width');
+				return data.layout.width;
 			},
 			'height': function(d) {
 				if(d.domType !== 'div') {
 					return;
 				}
-				return root.style('height');
+				return data.layout.height;
 			}
 		});
-	return container;
+	return this;
 }
 
 function Chart(dom) {
@@ -74,27 +84,16 @@ Chart.prototype = {
 		this.series = Series();//.options(chartModel.get('series'));
 		this.events = Events();//.options(chartModel.get('events'));
 		this.tooltip = Tooltip();//.options(chartModel.get('tooltip'));
-		this.chartRoot = d3.select(dom);
-		chartRoot.call(tooltip);
+		this.root = d3.select(dom);
+		this.root.call(tooltip);
 		//this.chartContainer = createContainer(chartRoot, _opts);
 		chartModel.on('change:domType', function(data) {
-			self.update.call(self, data);
+			update.call(self, data);
 		});
 		chartModel.on('change:layout', function(data) {
-			redrawContainer.call(self, data);
+			resize.call(self, data);
 		});
 		//this._draw.call(dom);
-	},
-	update: function(data) {
-		updateContainer.call(this, data);
-
-		//draw
-		chartContainer
-			.call(this.title)
-			.call(this.axis)
-			.call(this.legend)
-			.call(this.series)
-			.call(this.events);
 	}
 }
 
