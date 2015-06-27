@@ -12,9 +12,11 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "backbone": "^1.2.1",
     "browserify": "9.0.4",
     "chalk": "^0.5.1",
     "concat": "^1.0.0",
+    "d3": "^3.5.5",
     "gulp": "^3.8.11",
     "gulp-concat": "^2.5.2",
     "gulp-notify": "^2.2.0",

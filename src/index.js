@@ -1,23 +1,24 @@
 //var d3 = require('d3');
 var Chart = require('./chart');
 //var chartModel = require('./model/chart_model');
-var Action = require('./action/action');
+var Action = require('./actions/action');
 var Events = require('./component/events');
-var buildInThemes = {
+/*var buildInThemes = {
 	theme1: require('./theme/candy'),
 	theme2: require('./theme/cold')
-};
+};*/
 
 function mergeThemeToOpts(opts, theme) {
 	return;
 }
 
 function Seed3(selector) {
-	if(typeof(selector) === 'string')) {
-		this._init(d3.select(selector));
+	this._init(selector);
+	/*if(typeof(selector) === 'string')) {
+		this._init(d3.select(selector).node());
 	} else if(_.isElement(selector)) {
 		this._init(selector);
-	}
+	}*/
 }
 
 Seed3.prototype = {

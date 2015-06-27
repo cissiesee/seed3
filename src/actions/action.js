@@ -1,8 +1,8 @@
-var dispatch = require('dispatch');
+var dispatch = require('../dispatch');
 
-model.exports = {
+module.exports = {
 	setOption: function(data, opts) {
-		dispatch.set_option([data, opts]);
+		dispatch.set_option(data, opts);
 	},
 	setTheme: function(data) {
 		dispatch.set_theme(data);

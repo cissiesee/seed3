@@ -1,4 +1,4 @@
-var dispatch = require('d3/dispatch');
+var dispatch = require('d3').dispatch;
 
 module.exports = dispatch(
 	'set_option',

@@ -1,4 +1,5 @@
 var Backbone = require('backbone');
+var _ = require('lodash');
 var dispatch = require('../dispatch');
 var Collection = Backbone.Collection;
 var Model = Backbone.Model;
@@ -7,6 +8,9 @@ var chartModel = new Model();
 var seriesCollection = new Collection();
 var theme;
 
+var defaults = {
+	domType: 'svg'
+};
 //chartModel.set('series', seriesCollection);
 
 function mergeThemeToOpts(opts, theme) {
@@ -16,7 +20,7 @@ function mergeThemeToOpts(opts, theme) {
 
 dispatch.on('set_option', function(data, opts) {
 	//todo merge
-	chartModel.set(data);
+	chartModel.set(_.extend(defaults,data));
 });
 
 dispatch.on('set_theme', function(data) {
@@ -50,7 +54,7 @@ dispatch.on('resize', function(data) {
 	chartModel.set('layout', data);
 });
 
-return {
+module.exports = {
 	on: function(type, callback) {
 		chartModel.on(type, callback);
 		seriesCollection.on(type, callback);

@@ -3,19 +3,16 @@ var _ = require('lodash');
 var chartModel = require('./model/chart_model');
 
 var Title = require('./component/title');
-var Axis = require('./component/axis/axis');
-var Legend = require('./component/legend/legend');
-var Series = require('./component/series/series');
-var Events = require('./component/events');
-var Tooltip = require('./component/tooltip/tooltip');
+//var Axis = require('./component/axis/axis');
+//var Legend = require('./component/legend/legend');
+//var Series = require('./component/series/series');
+//var Events = require('./component/events');
+//var Tooltip = require('./component/tooltip/tooltip');
 
-function update(data) {
+function redraw(data) {
 	this.root.select('.chart-container').remove(); //todo check api
 	var newContainer = this.root
-		.append(function(d) {
-			return data.domType || 'svg';
-		})
-		.datum(data)
+		.append(data.get('domType'))
 		.attr({
 			'class': 'chart-container'
 		})
@@ -23,15 +20,15 @@ function update(data) {
 			'position': 'relative'
 		});
 
-	resize(newContainer);
+	resize.call(this, newContainer);
 
 	//sub function init
 	newContainer
-		.call(this.title)
-		.call(this.axis)
-		.call(this.legend)
-		.call(this.series)
-		.call(this.events);
+		.call(this.title);
+		// .call(this.axis)
+		// .call(this.legend)
+		// .call(this.series)
+		// .call(this.events);
 
 	return newContainer;
 }
@@ -44,13 +41,13 @@ function resize(data) {
 				if(d.domType === 'div') {
 					return;
 				}
-				return data.layout.width;
+				return data.get('layout').width;
 			},
 			'height': function(d) {
 				if(d.domType === 'div') {
 					return;
 				}
-				return data.layout.height;
+				return data.get('layout').height;
 			}
 		})
 		.style({
@@ -58,13 +55,13 @@ function resize(data) {
 				if(d.domType !== 'div') {
 					return;
 				}
-				return data.layout.width;
+				return data.get('layout').width;
 			},
 			'height': function(d) {
 				if(d.domType !== 'div') {
 					return;
 				}
-				return data.layout.height;
+				return data.get('layout').height;
 			}
 		});
 	return this;
@@ -79,16 +76,17 @@ Chart.prototype = {
 	init: function(dom) {
 		var self = this;
 		this.title = Title();//.options(chartModel.get('title'));
-		this.axis = Axis();//.options(chartModel.get('axis'));
-		this.legend = Legend();//.options(chartModel.get('legend'));
-		this.series = Series();//.options(chartModel.get('series'));
-		this.events = Events();//.options(chartModel.get('events'));
-		this.tooltip = Tooltip();//.options(chartModel.get('tooltip'));
+		// this.axis = Axis();//.options(chartModel.get('axis'));
+		// this.legend = Legend();//.options(chartModel.get('legend'));
+		// this.series = Series();//.options(chartModel.get('series'));
+		// this.events = Events();//.options(chartModel.get('events'));
+		// this.tooltip = Tooltip();//.options(chartModel.get('tooltip'));
 		this.root = d3.select(dom);
-		this.root.call(tooltip);
+		// this.root.call(this.tooltip);
 		//this.chartContainer = createContainer(chartRoot, _opts);
+		//update.call(this, data)
 		chartModel.on('change:domType', function(data) {
-			update.call(self, data);
+			redraw.call(self, data);
 		});
 		chartModel.on('change:layout', function(data) {
 			resize.call(self, data);
