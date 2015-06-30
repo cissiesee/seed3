@@ -19,7 +19,7 @@ function redraw() {
 	var titleObj = data.title;
 
 	dom.empty();
-	if(data.get('domType') === 'div') {
+	if(data.domType === 'div') {
 		titleContainer = dom.append('div')
 			.attr({
 				'class': 'chart-title'
@@ -55,8 +55,9 @@ function redraw() {
 	}
 }
 
-function update(data) {
-	var titleObj = data.get('title');
+function update() {
+	var data = this.datum();
+	var titleObj = data.title;
 	this.select('.main-title')
 		.text(titleObj.text);
 
