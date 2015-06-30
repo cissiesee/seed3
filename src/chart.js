@@ -20,10 +20,14 @@ function redraw(data) {
 			'position': 'relative'
 		});
 
-	resize.call(this, newContainer);
+	resize.call(this, data);
 
 	//sub function init
 	newContainer
+		.datum({
+			domType: data.get('domType'),
+			title: data.get('title')
+		})
 		.call(this.title);
 		// .call(this.axis)
 		// .call(this.legend)
@@ -35,36 +39,56 @@ function redraw(data) {
 
 function resize(data) {
 	//var root = this.root;
-	this.root.select('.chart-container')
+	var width = getSize.call(this, 'width', data);
+	var height = getSize.call(this, 'height', data);
+	var domType = data.get('domType');
+
+	var nodes = this.root.select('.chart-container');
+
+	if(data.get('animation')!==false) {
+		nodes = nodes.transition();
+	}
+
+	nodes
 		.attr({
-			'width': function(d) {
-				if(d.domType === 'div') {
+			'width': function() {
+				if(domType === 'div') {
 					return;
 				}
-				return data.get('layout').width;
+				return width;
 			},
-			'height': function(d) {
-				if(d.domType === 'div') {
+			'height': function() {
+				if(domType === 'div') {
 					return;
 				}
-				return data.get('layout').height;
+				return height;
 			}
 		})
 		.style({
-			'width': function(d) {
-				if(d.domType !== 'div') {
+			'width': function() {
+				if(domType !== 'div') {
 					return;
 				}
-				return data.get('layout').width;
+				return width + 'px';
 			},
-			'height': function(d) {
-				if(d.domType !== 'div') {
+			'height': function() {
+				if(domType !== 'div') {
 					return;
 				}
-				return data.get('layout').height;
+				return height + 'px';
 			}
 		});
 	return this;
+}
+
+function getSize(type, data) {
+	var size;
+	if(data.get('layout') && data.get('layout')[type]) {
+		size = data.get('layout')[type];
+	} else {
+		size = this.root.style(type).match(/\d+/)[0];
+	}
+	return size * 1;
 }
 
 function Chart(dom) {
@@ -86,9 +110,12 @@ Chart.prototype = {
 		//this.chartContainer = createContainer(chartRoot, _opts);
 		//update.call(this, data)
 		chartModel.on('change:domType', function(data) {
+			//console.log('domType');
 			redraw.call(self, data);
 		});
+
 		chartModel.on('change:layout', function(data) {
+			//console.log('chart title');
 			resize.call(self, data);
 		});
 		//this._draw.call(dom);

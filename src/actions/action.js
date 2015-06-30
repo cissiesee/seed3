@@ -13,8 +13,8 @@ module.exports = {
 	reset: function() {
 		dispatch.reset();
 	},
-	resize: function(data) {
-		dispatch.resize(data);
+	resize: function() {
+		dispatch.resize();
 	},
 	addSeries: function(data) {
 		dispatch.add_series(data);

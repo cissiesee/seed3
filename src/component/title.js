@@ -1,5 +1,5 @@
 //var dispatch = require('../dispatch');
-var model = require('../model/chart_model');
+var chartModel = require('../model/chart_model');
 
 // title: {
 // 	text: 'dfe',
@@ -12,10 +12,13 @@ var model = require('../model/chart_model');
 //	}
 // }
 
-function update(data) {
+function redraw() {
 	var dom = this;
+	var data = dom.datum();
 	var titleContainer;
-	var titleObj = data.get('title');
+	var titleObj = data.title;
+
+	dom.empty();
 	if(data.get('domType') === 'div') {
 		titleContainer = dom.append('div')
 			.attr({
@@ -31,21 +34,47 @@ function update(data) {
 				'transform': 'translate(0,0)'
 			})
 			.style(titleObj.style);
-		titleContainer.append('text').attr({x:0,y:0}).text(titleObj.text).style(titleObj.textStyle);
-		titleContainer.append('text').text(titleObj.subtext)
-			.attr({y: titleObj.textStyle.fontSize})
+
+		titleContainer.append('text')
+			.text(titleObj.text)
+			.attr({
+				x:0,
+				y:0,
+				dy: '1em',
+				'class': 'main-title'
+			})
+			.style(titleObj.textStyle);
+
+		titleContainer.append('text')
+			.text(titleObj.subtext)
+			.attr({
+				dy: '2.3em',
+				'class': 'sub-title'
+			})
 			.style(titleObj.subtextStyle);
 	}
 }
 
+function update(data) {
+	var titleObj = data.get('title');
+	this.select('.main-title')
+		.text(titleObj.text);
+
+	this.select('.sub-title')
+		.text(titleObj.subtext);
+}
+
 module.exports = function() {
 	var title = function(dom) { //exe once
-		model.on('change:domType', function(data) {
-			update.call(dom, data);
-		});
+		redraw.call(dom);
 
-		model.on('change:title', function(data) {
-			update.call(dom, data);
+		chartModel.on('change:title', function(data) {
+			console.log('title');
+			dom.datum({
+				domType: data.get('domType'),
+				title: data.get('title')	
+			});
+			update.call(dom);
 		});
 	};
 

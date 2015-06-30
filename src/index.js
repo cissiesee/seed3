@@ -66,8 +66,8 @@ Seed3.prototype = {
 		Action.destroy();
 	},
 	resize: function() {
-		var layout = {width: dom.style.width, height: dom.style.height};
-		Action.resize(layout);
+		//var layout = {width: dom.style.width, height: dom.style.height};
+		Action.resize();
 		//Events.fire('resize');
 		//this._chart.layout(layout);
 		//this._chart(this._dom);
