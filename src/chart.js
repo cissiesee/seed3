@@ -17,7 +17,8 @@ function redraw(data) {
 			'class': 'chart-container'
 		})
 		.style({
-			'position': 'relative'
+			'position': 'relative',
+			'background': '#eee'
 		});
 
 	resize.call(this, data);

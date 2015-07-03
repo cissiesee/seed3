@@ -25,33 +25,33 @@ var components = {
 method:
 getOption: {
 	domType: 'svg', //'div'
-	axis: {
-		type: 'rectangle' //'polar'
-		grid: {
-			x: true,
-			y: false,
+	//axis: {
+	axisType: 'rectangle', //'polar'
+	grid: {
+		x: true,
+		y: false,
+		style: {
+
+		}
+	},
+	axes: [
+		{
+			key: 'x', //'y', 'a,b,c,d,e,f...' for polar
+			dataKey: '',
+			type: 'category', //'value'
+			data: [],
+			title: 'axis x',
+			titleLocation: 'start', //'end', 'middle'
 			style: {
 
-			}
-		},
-		axes: [
-			{
-				key: 'x', //'y', 'a,b,c,d,e,f...' for polar
-				dataKey: '',
-				type: 'category', //'value'
-				data: [],
-				title: 'axis x',
-				titleLocation: 'start', //'end', 'middle'
-				style: {
+			},
+			hoverStyle: {
 
-				},
-				hoverStyle: {
-
-				}
 			}
-		]
-	},
-	series: {
+		}
+	],
+	//},
+	series: [{
 		type: 'line', //'pie'-->rectangle/polar
 		data: {}, //rawdata,
 		keyMap: { //for non-axis
@@ -65,7 +65,7 @@ getOption: {
 		hoverStyle: {
 
 		}
-	},
+	}],
 	tooltip: {
 
 	},

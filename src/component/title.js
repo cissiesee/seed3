@@ -1,6 +1,6 @@
 //var dispatch = require('../dispatch');
 var chartModel = require('../model/chart_model');
-
+var _ = require('lodash');
 // title: {
 // 	text: 'dfe',
 // 	subtext: 'dfewe',
@@ -16,7 +16,16 @@ function redraw() {
 	var dom = this;
 	var data = dom.datum();
 	var titleContainer;
-	var titleObj = data.title;
+	var titleObj = _.extend({
+		textStyle: {
+			'padding': 0,
+			'margin': 0
+		},
+		subtextStyle: {
+			'padding': 0,
+			'margin': 0
+		}
+	}, data.title);
 
 	dom.empty();
 	if(data.domType === 'div') {
@@ -25,8 +34,14 @@ function redraw() {
 				'class': 'chart-title'
 			})
 			.style(titleObj.style);
-		titleContainer.append('h3').text(titleObj.text).style(titleObj.textStyle);
-		titleContainer.append('h5').text(titleObj.subtext).style(titleObj.subtextStyle);
+
+		titleContainer.append('h3')
+			.text(titleObj.text)
+			.style(titleObj.textStyle);
+			
+		titleContainer.append('h5')
+			.text(titleObj.subtext)
+			.style(titleObj.subtextStyle);
 	} else {
 		titleContainer = dom.append('g')
 			.attr({

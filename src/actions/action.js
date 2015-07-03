@@ -52,6 +52,12 @@ module.exports = {
 	dragTitle: function(data) {
 		dispatch.drag_title(data);
 	},
+	addAxis: function(data) {
+		dispatch.add_axis(data);
+	},
+	removeAxis: function(data) {
+		dispatch.remove_axis(data);
+	},
 	exports: function(data) {
 		dispatch.exports(data);
 	}

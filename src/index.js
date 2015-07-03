@@ -1,6 +1,7 @@
 //var d3 = require('d3');
 var Chart = require('./chart');
 //var chartModel = require('./model/chart_model');
+var _ = require('lodash');
 var Action = require('./actions/action');
 var Events = require('./component/events');
 /*var buildInThemes = {
@@ -13,12 +14,13 @@ function mergeThemeToOpts(opts, theme) {
 }
 
 function Seed3(selector) {
-	this._init(selector);
-	/*if(typeof(selector) === 'string')) {
+	//this._init(selector);
+	//make sure init an html element
+	if(typeof(selector) === 'string') {
 		this._init(d3.select(selector).node());
 	} else if(_.isElement(selector)) {
 		this._init(selector);
-	}*/
+	}
 }
 
 Seed3.prototype = {
@@ -66,8 +68,11 @@ Seed3.prototype = {
 		Action.destroy();
 	},
 	resize: function() {
-		//var layout = {width: dom.style.width, height: dom.style.height};
-		Action.resize();
+		var layout = {width: this.dom.clientWidth, height: this.dom.clientHeight};
+		this.setOption({
+			layout: layout
+		});
+		//Action.resize();
 		//Events.fire('resize');
 		//this._chart.layout(layout);
 		//this._chart(this._dom);
